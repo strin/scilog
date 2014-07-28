@@ -95,19 +95,25 @@ void XMLlog::registerSignals() {
 }
 
 void XMLlog::begin(std::string node) {
+  th_mutex.lock();
   boost::replace_all(node, " ", "_");
   *stream << "<" << node << ">" << endl;
   stack.push_back(node);
+  th_mutex.unlock();
 }
 
 void XMLlog::end() {
+  th_mutex.lock();
   *stream << "</" << stack.back() << ">" << endl;
   stack.pop_back();
+  th_mutex.unlock();
 }
 
 void XMLlog::log(const string& msg) {
+  th_mutex.lock();
   *stream << XMLlog::encodeString(msg);
   (*stream).flush();
+  th_mutex.unlock();
 }
 
 XMLlog& operator<<(XMLlog& log, const std::string& msg) {

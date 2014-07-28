@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <thread>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
 
@@ -23,6 +24,8 @@ public:
 
   std::ostream* stream;
 private:
+  std::mutex th_mutex;
+  std::unique_lock<std::mutex> th_lock;
   std::vector<std::string> stack;  
   bool lets_close;
   void registerSignals();
