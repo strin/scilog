@@ -6,6 +6,7 @@
 #include <memory>
 #include <iostream>
 #include <thread>
+#include <map>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
 
@@ -17,6 +18,7 @@ public:
   ~XMLlog();
   void begin(std::string node);
   void log(const std::string& msg);
+  void logRaw(const std::string& msg);
   void end();
   static std::string encodeString(std::string source);
   static const char endl = '\n';
@@ -39,4 +41,5 @@ XMLlog& operator<<(XMLlog& log, double val);
 XMLlog& operator<<(XMLlog& log, float val);
 XMLlog& operator<<(XMLlog& log, int val);
 XMLlog& operator<<(XMLlog& log, size_t val);
+XMLlog& operator<<(XMLlog& log, const std::map<std::string, double>& dic);
 #endif

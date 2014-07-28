@@ -55,7 +55,8 @@ XMLlog::XMLlog(ostream& stream)
 }
 
 XMLlog::XMLlog(string filename) 
-:stream(new fstream(filename.c_str())), lets_close(true) {
+:stream(new ofstream()), lets_close(true) {
+  ((ofstream*)stream)->open("test.xml");
   this->begin("document");
   registerSignals();
 }
@@ -64,8 +65,10 @@ XMLlog::~XMLlog() {
   while(this->depth() > 0) {
     this->end();
   }
-  if(lets_close) 
+  if(lets_close) { 
+    ((ofstream*)this->stream)->close();
     delete stream;
+  }
 }
 
 string XMLlog::encodeString(string source)
@@ -73,7 +76,7 @@ string XMLlog::encodeString(string source)
   stringstream ss;
   for(int i = 0; i < source.size(); i++)
   {
-      if (((source[i]) >= 32 && (source[i]) <= 37)                        
+    if (((source[i]) >= 32 && (source[i]) <= 37)                        
        || ((source[i]) == 39 )
        || ((source[i]) >= 42 && (source[i]) <= 59) 
        || ((source[i]) >= 64 && (source[i]) <= 122)
@@ -116,6 +119,13 @@ void XMLlog::log(const string& msg) {
   th_mutex.unlock();
 }
 
+void XMLlog::logRaw(const string& msg) {
+  th_mutex.lock();
+  *stream << msg;
+  (*stream).flush();
+  th_mutex.unlock();
+}
+
 XMLlog& operator<<(XMLlog& log, const std::string& msg) {
   log.log(msg); 
   return log;
@@ -150,4 +160,16 @@ XMLlog& operator<<(XMLlog& log, float val) {
 
 XMLlog& operator<<(XMLlog& log, size_t val) {
   return log << to_string(val);
+}
+
+XMLlog& operator<<(XMLlog& log, const map<string, double>& dic) {
+  for(const pair<string, double>& item : dic) {
+    log.logRaw("<entry name=\"");
+    log.logRaw(item.first);
+    log.logRaw("\" value=\"");
+    log.logRaw(to_string(item.second));
+    log.logRaw("\"/>");
+    log << endl;
+  }
+  return log;
 }
