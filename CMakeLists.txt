@@ -8,7 +8,7 @@ set(PROJECT_SRCS
   ${PROJECT_SOURCE_DIR}/log.cpp 
   testlog.cpp 
 )
-
+ADD_DEFINITIONS("-std=c++0x" "-Wall" "-g" "-O0" "-fPIC")
 ADD_LIBRARY(scilog SHARED
 ${PROJECT_SRCS})
 
