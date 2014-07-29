@@ -103,6 +103,7 @@ void XMLlog::begin(std::string node) {
   th_mutex.lock();
   boost::replace_all(node, " ", "_");
   *stream << "<" << node << ">" << endl;
+  stream->flush();
   stack.push_back(node);
   th_mutex.unlock();
 }
@@ -110,6 +111,7 @@ void XMLlog::begin(std::string node) {
 void XMLlog::end() {
   th_mutex.lock();
   *stream << "</" << stack.back() << ">" << endl;
+  stream->flush();
   stack.pop_back();
   th_mutex.unlock();
 }
@@ -117,7 +119,7 @@ void XMLlog::end() {
 void XMLlog::log(const string& msg) {
   th_mutex.lock();
   *stream << XMLlog::encodeString(msg);
-  (*stream).flush();
+  stream->flush();
   th_mutex.unlock();
 }
 
