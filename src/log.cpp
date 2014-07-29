@@ -56,7 +56,7 @@ XMLlog::XMLlog(ostream& stream)
 
 XMLlog::XMLlog(string filename) 
 :stream(new ofstream()), lets_close(true) {
-  ((ofstream*)stream)->open("test.xml");
+  ((ofstream*)stream)->open(filename.c_str());
   this->begin("document");
   registerSignals();
 }
@@ -76,13 +76,15 @@ string XMLlog::encodeString(string source)
   stringstream ss;
   for(int i = 0; i < source.size(); i++)
   {
-    if (((source[i]) >= 32 && (source[i]) <= 37)                        
+    if(source[i] == '\"')
+      ss << "&quot;";
+    else if (((source[i]) >= 32 && (source[i]) <= 37)                        
        || ((source[i]) == 39 )
        || ((source[i]) >= 42 && (source[i]) <= 59) 
        || ((source[i]) >= 64 && (source[i]) <= 122)
        || source[i] == 9)
 	  ss << source[i];
-      else
+    else
 	ss << ARR_ASCII_MAP[(int)source[i]];
   }
   return ss.str();
@@ -165,9 +167,10 @@ XMLlog& operator<<(XMLlog& log, size_t val) {
 XMLlog& operator<<(XMLlog& log, const map<string, double>& dic) {
   for(const pair<string, double>& item : dic) {
     log.logRaw("<entry name=\"");
-    log.logRaw(item.first);
+    string key = item.first;
+    log.log(key);
     log.logRaw("\" value=\"");
-    log.logRaw(to_string(item.second));
+    log.log(to_string(item.second));
     log.logRaw("\"/>");
     log << endl;
   }
