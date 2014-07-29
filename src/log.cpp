@@ -48,9 +48,9 @@ XMLlog::XMLlog()
   registerSignals();
 }
 
+// warning: init from stream do not add "<document>".
 XMLlog::XMLlog(ostream& stream)
 :stream(&stream), lets_close(false) {
-  this->begin("document");
   registerSignals();
 }
 
