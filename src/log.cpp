@@ -166,7 +166,7 @@ XMLlog& operator<<(XMLlog& log, size_t val) {
   return log << to_string(val);
 }
 
-XMLlog& operator<<(XMLlog& log, const map<string, double>& dic) {
+XMLlog& operator<<(XMLlog& log, const unordered_map<string, double>& dic) {
   for(const pair<string, double>& item : dic) {
     log.logRaw("<entry name=\"");
     string key = item.first;
