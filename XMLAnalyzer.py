@@ -16,7 +16,9 @@ class XMLAnalyzer:
    e.g. data/country/rank 
   """
   def search(me, pattern, ret_type=str): 
-    ret = me.__search__(pattern.split('/'), me.root)
+    pattern = pattern.split('/')
+    pattern = [x for x in pattern if x != '']
+    ret = me.__search__(pattern, me.root)
     return [ret_type(x) for x in ret]
 
   def __search__(me, pattern_list, node):
@@ -29,4 +31,7 @@ class XMLAnalyzer:
       for child in node:
         text = text + me.__search__(pattern_list[1:], child)
       return text
-      
+
+if __name__ == "__main__":
+  xml = XMLAnalyzer('../wsj_simple3.xml')
+  print xml.search('document/pass/score/')

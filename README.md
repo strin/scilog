@@ -21,5 +21,6 @@ Tasks:
 Future Tasks:
 [1] Extend to Java and Matlab.
 [2] Remote integration: retrieve and interpret from computation servers.
+[3] Custom XML parser that works even if the XML is still being writen. 
 
 
