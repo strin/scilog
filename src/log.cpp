@@ -36,6 +36,7 @@ const char ARR_ASCII_MAP[256][8]
  * so the file remains a legit xml */
 void sighandler(int s) {
   for(XMLlog* log : GLOBAL_XML_LOGS) {
+    if(log == nullptr) continue;
     while(log->depth() > 0) 
       log->end();
   }
@@ -167,6 +168,19 @@ XMLlog& operator<<(XMLlog& log, size_t val) {
 }
 
 XMLlog& operator<<(XMLlog& log, const unordered_map<string, double>& dic) {
+  for(const pair<string, double>& item : dic) {
+    log.logRaw("<entry name=\"");
+    string key = item.first;
+    log.log(key);
+    log.logRaw("\" value=\"");
+    log.log(to_string(item.second));
+    log.logRaw("\"/>");
+    log << endl;
+  }
+  return log;
+}
+
+XMLlog& operator<<(XMLlog& log, const list<pair<string, double> >& dic) {
   for(const pair<string, double>& item : dic) {
     log.logRaw("<entry name=\"");
     string key = item.first;

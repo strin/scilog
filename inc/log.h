@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>
 #include <map>
+#include <list>
 #include <unordered_map>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
@@ -43,4 +44,5 @@ XMLlog& operator<<(XMLlog& log, float val);
 XMLlog& operator<<(XMLlog& log, int val);
 XMLlog& operator<<(XMLlog& log, size_t val);
 XMLlog& operator<<(XMLlog& log, const std::unordered_map<std::string, double>& dic);
+XMLlog& operator<<(XMLlog& log, const std::list<std::pair<std::string, double> >& dic);
 #endif
