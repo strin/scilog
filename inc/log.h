@@ -9,7 +9,6 @@
 #include <map>
 #include <list>
 #include <unordered_map>
-#include "utf8.h"
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
 
