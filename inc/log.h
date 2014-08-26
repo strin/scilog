@@ -9,6 +9,7 @@
 #include <map>
 #include <list>
 #include <unordered_map>
+#include <mutex>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
 
