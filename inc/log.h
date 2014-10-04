@@ -10,8 +10,41 @@
 #include <list>
 #include <unordered_map>
 #include "utf8.h"
+#include "sys/stat.h"
+#include "dirent.h"
+#include <fstream>
+#include "stdlib.h"
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
+
+namespace scilog {
+  using string = std::string;
+
+  struct DirLog {
+  public:
+    DirLog(std::string path);
+    void begin(std::string node);
+    void end(std::string node = "");
+    void log(const std::string& msg);
+
+  private:
+    std::vector<std::string> path;
+    std::string collapse() const;
+  };
+}
+
+struct XMLlog;
+
+XMLlog& operator<<(XMLlog& log, const std::string& msg);
+XMLlog& operator<<(XMLlog& log, char ch);
+XMLlog& operator<<(XMLlog& log, const char* str);
+XMLlog& operator<<(XMLlog& log, StreamPointer func);
+XMLlog& operator<<(XMLlog& log, double val);
+XMLlog& operator<<(XMLlog& log, float val);
+XMLlog& operator<<(XMLlog& log, int val);
+XMLlog& operator<<(XMLlog& log, size_t val);
+XMLlog& operator<<(XMLlog& log, const std::unordered_map<std::string, double>& dic);
+XMLlog& operator<<(XMLlog& log, const std::list<std::pair<std::string, double> >& dic);
 
 struct XMLlog {
 public:
@@ -21,6 +54,18 @@ public:
   ~XMLlog();
   void begin(std::string node);
   void log(const std::string& msg);
+
+  /* log an attribute such as <entry key=" " val = " "> */
+  template<class T>
+  void logAttr(const std::string& name, const std::string& key, const T val) {
+    this->logRaw("<" + name + " name=\"");
+    this->log(key);
+    this->logRaw("\" value=\"");
+    this->log(std::to_string(val));
+    this->logRaw("\"/>");
+    (*this) << std::endl; 
+  }
+
   void logRaw(const std::string& msg);
   void end();
   static std::string encodeString(std::string source);
@@ -36,14 +81,5 @@ private:
   void registerSignals();
 };
 
-XMLlog& operator<<(XMLlog& log, const std::string& msg);
-XMLlog& operator<<(XMLlog& log, char ch);
-XMLlog& operator<<(XMLlog& log, const char* str);
-XMLlog& operator<<(XMLlog& log, StreamPointer func);
-XMLlog& operator<<(XMLlog& log, double val);
-XMLlog& operator<<(XMLlog& log, float val);
-XMLlog& operator<<(XMLlog& log, int val);
-XMLlog& operator<<(XMLlog& log, size_t val);
-XMLlog& operator<<(XMLlog& log, const std::unordered_map<std::string, double>& dic);
-XMLlog& operator<<(XMLlog& log, const std::list<std::pair<std::string, double> >& dic);
+
 #endif

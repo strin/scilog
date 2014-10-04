@@ -125,6 +125,8 @@ void XMLlog::log(const string& msg) {
   th_mutex.unlock();
 }
 
+
+
 void XMLlog::logRaw(const string& msg) {
   th_mutex.lock();
   *stream << msg;
@@ -170,26 +172,14 @@ XMLlog& operator<<(XMLlog& log, size_t val) {
 
 XMLlog& operator<<(XMLlog& log, const unordered_map<string, double>& dic) {
   for(const pair<string, double>& item : dic) {
-    log.logRaw("<entry name=\"");
-    string key = item.first;
-    log.log(key);
-    log.logRaw("\" value=\"");
-    log.log(to_string(item.second));
-    log.logRaw("\"/>");
-    log << endl;
+    log.logAttr("entry", item.first, item.second);
   }
   return log;
 }
 
 XMLlog& operator<<(XMLlog& log, const list<pair<string, double> >& dic) {
   for(const pair<string, double>& item : dic) {
-    log.logRaw("<entry name=\"");
-    string key = item.first;
-    log.log(key);
-    log.logRaw("\" value=\"");
-    log.log(to_string(item.second));
-    log.logRaw("\"/>");
-    log << endl;
+    log.logAttr("entry", item.first, item.second);
   }
   return log;
 }

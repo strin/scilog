@@ -6,6 +6,7 @@ include_directories("inc")
 
 set(PROJECT_SRCS
   ${PROJECT_SOURCE_DIR}/log.cpp 
+  ${PROJECT_SOURCE_DIR}/dirlog.cpp 
   testlog.cpp 
 )
 ADD_DEFINITIONS("-std=c++0x" "-Wall" "-g" "-O0" "-fPIC")
@@ -15,4 +16,9 @@ ${PROJECT_SRCS})
 add_executable(testlog testlog.cpp)
 
 target_link_libraries(testlog
+scilog)
+
+add_executable(test_dirlog test_dirlog.cpp)
+
+target_link_libraries(test_dirlog
 scilog)
