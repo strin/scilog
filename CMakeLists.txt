@@ -16,8 +16,3 @@ add_executable(testlog testlog.cpp)
 
 target_link_libraries(testlog
 scilog)
-
-add_executable(test_dirlog test_dirlog.cpp)
-
-target_link_libraries(test_dirlog
-scilog)

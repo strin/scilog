@@ -11,6 +11,8 @@
 #include <unordered_map>
 #include <mutex>
 
+typedef std::ostream& (*StreamPointer) (std::ostream& os);
+
 struct XMLlog;
 
 XMLlog& operator<<(XMLlog& log, const std::string& msg);
