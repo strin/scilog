@@ -14,6 +14,7 @@
 #include "dirent.h"
 #include <fstream>
 #include "stdlib.h"
+#include <mutex>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
 
