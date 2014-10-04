@@ -11,24 +11,6 @@
 #include <unordered_map>
 #include <mutex>
 
-typedef std::ostream& (*StreamPointer) (std::ostream& os);
-
-namespace scilog {
-  using string = std::string;
-
-  struct DirLog {
-  public:
-    DirLog(std::string path);
-    void begin(std::string node);
-    void end(std::string node = "");
-    void log(const std::string& msg);
-
-  private:
-    std::vector<std::string> path;
-    std::string collapse() const;
-  };
-}
-
 struct XMLlog;
 
 XMLlog& operator<<(XMLlog& log, const std::string& msg);

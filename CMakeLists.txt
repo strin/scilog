@@ -6,7 +6,6 @@ include_directories("inc")
 
 set(PROJECT_SRCS
   ${PROJECT_SOURCE_DIR}/log.cpp 
-  ${PROJECT_SOURCE_DIR}/dirlog.cpp 
   testlog.cpp 
 )
 ADD_DEFINITIONS("-std=c++0x" "-Wall" "-g" "-O0" "-fPIC")
