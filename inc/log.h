@@ -9,11 +9,6 @@
 #include <map>
 #include <list>
 #include <unordered_map>
-#include "utf8.h"
-#include "sys/stat.h"
-#include "dirent.h"
-#include <fstream>
-#include "stdlib.h"
 #include <mutex>
 
 typedef std::ostream& (*StreamPointer) (std::ostream& os);
